@@ -1,38 +1,9 @@
 <script>
 	import Grid from './grid/Grid.svelte';
 
-	let rowCount = 20;
-	let cellCount = 52;
-	let startCellSelected = false;
-	let endCellSelected = false;
+	
 
-	function cellClick_handler(e) {
-		if(!e.detail.target.dataset.cellidx) return; // check that clicked cell has a cell index
-		if(!startCellSelected) { // select start cell first if havent selected
-			e.detail.target.classList.toggle('cell--start');
-			startCellSelected = true;
-			console.log('start');
-			return;
-		}
-		else if(e.detail.target.classList.contains('cell--start') && startCellSelected) {
-			e.detail.target.classList.toggle('cell--start');
-			startCellSelected = false;
-			return;
-		}
-		if(!endCellSelected) { // select end cell if havent selected
-			e.detail.target.classList.toggle('cell--end');
-			endCellSelected = true;
-			console.log('end')
-			return;
-		}
-		else if(e.detail.target.classList.contains('cell--end') && endCellSelected) {
-			e.detail.target.classList.toggle('cell--end');
-			endCellSelected = false;
-			return;
-		}
-		
-		e.detail.target.classList.toggle('cell--wall');
-	}
+	
 </script>
 
 <main>
@@ -42,9 +13,8 @@
 	<p id='instructions'>3. Draw walls</p>
 	<p id='instructions'>4. Click visualize</p>
 	<div class="center">
-		<table>
-			<Grid rowCount={rowCount} cellCount={cellCount} on:cellClick={cellClick_handler}/>
-		</table>
+			<!---<Grid rowCount={rowCount} cellCount={cellCount} on:cellClick={cellClick_handler}/>--->
+			<Grid/>
 	</div>
 
 </main>
@@ -79,7 +49,5 @@
 		border: 3px solid green;
 		padding: 10px;
 	}
-	table {
-		border-spacing: 0;
-	}
+	
 </style>

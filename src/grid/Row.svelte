@@ -12,10 +12,11 @@
     let onCellClicked = (e) => {
         dispatch('cellClick', e);
     };
-    function handleMousemove(event) {
+    //function handleMousemove(event) {
 		//console.log(event.clientX);
-		//console.log(event.clientY);
-	}
+        //console.log(event.clientY);
+        //console.log(event);
+	//}
     // maybe refactor the styles below and instead of using global, use a prop on this child component
     // to determine whether or not to add the class and conditionally add the class in this markup?
     // Otherwise, Svelte will remove unused styles...
@@ -54,6 +55,13 @@
 
 <tr class='row'>
     {#each Array(cellCount) as columnCell, columnIdx}
-        <td class='cell' on:click={onCellClicked} id={`${rowIdx},${columnIdx}`} data-cellidx={`${rowIdx},${columnIdx}`} on:mousemove={handleMousemove}></td>
+        <td class='cell'
+            on:click={onCellClicked}
+            id={`${rowIdx},${columnIdx}`}
+            data-cellidx={`${rowIdx},${columnIdx}`}
+            on:mouseover
+            on:mouseup
+            on:mousedown
+        ></td>
     {/each}
 </tr>

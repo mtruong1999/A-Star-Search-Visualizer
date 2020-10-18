@@ -50,7 +50,7 @@ export function a_star(grid) {
     while(!openSet.isEmpty()) {
         let currentNode = openSet.peek();
         if (grid.isGoal(currentNode)) {
-            return reconstruct_path(currentNode.predecessor, currentNode);
+            return [visitedNodes, reconstruct_path(currentNode.predecessor, currentNode)];
         }
 
         let visitedNode = openSet.pop(); // Add visited nodes in order to be used

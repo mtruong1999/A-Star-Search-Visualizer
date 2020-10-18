@@ -1,12 +1,19 @@
 import Node from './Node';
 import PriorityQueue from './PriorityQueue';
 
+// TODO: Maybe reconstruc path outside of this? In some svelte component to rerender
+// the path as its generated?
 function reconstruct_path(cameFrom, current) {
-    return 0;
+    totalPath = [current];
+    while(current.predecessor != NULL) {
+        current = current.predecessor
+        totalPath = totalPath.unshift(current)
+    }
+    return totalPath
 }
 
-function isValidNode(node) {
-    return true;
+function isValidNode(node, grid) {
+    return !grid.isWall(node) && !grid.isVisited(node) && grid.validCoord(node);
 }
 
 function get_neighbors(node) {
@@ -23,27 +30,32 @@ function get_neighbors(node) {
     neighbors.forEach((item) => {
         if(isValidNode(item)) nodes.push(new Node(item[0], item[1]))
     });
+
+    return neighbors;
 }
 
 function node_in_set(node, set) {
     return set.some(e => e.isEqual(node));
 }
 
-const comparator = (node1, node2) => node1.total_cost < node2.total_cost; 
-export function a_star(startNode, goalNode, h) {
+export function a_star(grid) {
+    const comparator = (node1, node2) => node1.total_cost < node2.total_cost;
     const openSet = PriorityQueue(comparator);
-    openSet.push(startNode);
+    let visitedNodes = [];
 
-    startNode.g_n_cost = 0;
-    startNode.calculate_h(goalNode);
+    openSet.push(grid.startNode);
+    grid.startNode.g_n_cost = 0;
+    grid.startNode.calculate_h(grid.goalNode);
 
     while(!openSet.isEmpty()) {
         let currentNode = openSet.peek();
-        if (currentNode.isEqual(goalNode)) {
+        if (grid.isGoal(currentNode)) {
             return reconstruct_path(currentNode.predecessor, currentNode);
         }
 
-        openSet.pop();
+        let visitedNode = openSet.pop(); // Add visited nodes in order to be used
+        visitedNodes.push(visitedNode); // in animation
+
         get_neighbors(currentNode).forEach((neighbor) => {
             let tentative_gScore = currentNode.g_n_cost + 1;
 

@@ -26,3 +26,5 @@ class Grid {
         return node.x > 0 && node.x < this.height && node.y > 0 && node.y < this.width;
     }
 }
+
+export default Grid;

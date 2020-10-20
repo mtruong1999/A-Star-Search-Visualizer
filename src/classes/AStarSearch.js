@@ -5,7 +5,7 @@ import PriorityQueue from './PriorityQueue';
 // the path as its generated?
 function reconstruct_path(cameFrom, current) {
     totalPath = [current];
-    while(current.predecessor != NULL) {
+    while(current.predecessor != null) {
         current = current.predecessor
         totalPath = totalPath.unshift(current)
     }
@@ -45,6 +45,7 @@ export function a_star(grid) {
 
     openSet.push(grid.startNode);
     grid.startNode.g_n_cost = 0;
+    grid.startNode.predecessor = null;
     grid.startNode.calculate_h(grid.goalNode);
 
     while(!openSet.isEmpty()) {
@@ -55,6 +56,7 @@ export function a_star(grid) {
 
         let visitedNode = openSet.pop(); // Add visited nodes in order to be used
         visitedNodes.push(visitedNode); // in animation
+        grid.visit(gridNode);
 
         get_neighbors(currentNode).forEach((neighbor) => {
             let tentative_gScore = currentNode.g_n_cost + 1;

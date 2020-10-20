@@ -1,6 +1,6 @@
 import Node from './Node';
 
-class Grid {
+class GridClass {
     constructor(w, h, startCoord, goalCoord, walls) {
         this.width = w;
         this.height = h;
@@ -27,4 +27,4 @@ class Grid {
     }
 }
 
-export default Grid;
+export default GridClass;

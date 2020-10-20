@@ -1,9 +1,10 @@
 <script>
 
     import Row from './Row.svelte';
+	export let table;
 
-    let rowCount = 20;
-	let cellCount = 52;
+    export let rowCount;
+	export let cellCount;
 	let startCellSelected = false;
 	let endCellSelected = false;
 	let clickDown = false;
@@ -60,7 +61,7 @@
 		console.log(clickDown)
 	}
 </script>
-<table>
+<table bind:this={table}>
     {#each Array(rowCount) as row, rowIdx}
 		<Row 
 			cellCount={cellCount}

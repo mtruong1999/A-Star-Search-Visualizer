@@ -8,7 +8,7 @@ class Node {
         this.y = y;
         this.g_n = Infinity;
         this.h_n = 0;
-        this.predecessor = null;
+        //this.predecessor = null;
     }
 
     get id() {

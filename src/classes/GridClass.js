@@ -8,7 +8,7 @@ class GridClass {
         this.goalNode = new Node(...goalCoord);
         this.visited = new Map();
         this.walls = new Map();
-        walls.forEach(w => this.walls.set(String(w), new Node(...w)));      
+        walls.forEach(w => this.walls.set(String(w), new Node(...w)));
     }
     isGoal(node) {
         return node.isEqual(goalNode);

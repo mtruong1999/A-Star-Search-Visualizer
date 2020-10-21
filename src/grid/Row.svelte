@@ -12,11 +12,7 @@
     let onCellClicked = (e) => {
         dispatch('cellClick', e);
     };
-    //function handleMousemove(event) {
-		//console.log(event.clientX);
-        //console.log(event.clientY);
-        //console.log(event);
-	//}
+    
     // maybe refactor the styles below and instead of using global, use a prop on this child component
     // to determine whether or not to add the class and conditionally add the class in this markup?
     // Otherwise, Svelte will remove unused styles...

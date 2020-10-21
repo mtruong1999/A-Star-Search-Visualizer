@@ -3,6 +3,7 @@ import { element } from 'svelte/internal';
 
 	import Grid from './grid/Grid.svelte';
 	import GridClass from './classes/GridClass';
+	import {a_star} from './classes/AStarSearch.js';
 	let table;
 	let rowCount = 20;
 	let cellCount = 52;
@@ -14,23 +15,26 @@ import { element } from 'svelte/internal';
 	}
 
 	function getCellIdx(elem) {
-		const cellIdx = element.dataset.cellidx.split(',');
-		return [parseInt(cellIdx,10), parseInt(cellIdx, 10)];
+		const cellIdx = elem.dataset.cellidx.split(',');
+		return [parseInt(cellIdx[0],10), parseInt(cellIdx[1], 10)];
 	}
 
 	function onRunAlgorithm() {
 		const gridInfo = getGrid();
-		console.log(gridInfo[1].length);
-		console.log(gridInfo);
+
 		if(gridInfo[1].length === 1 && gridInfo[2].length === 1) {
 			let wallIndices = [];
+
 			const walls = [...gridInfo[0]].forEach((e) => {
 				wallIndices.push(getCellIdx(e));
 			});
-			const startIdx = getCellIdx(gridInfo[1]);
-			const endIdx = getCellIdx(gridInfo[2]);
-
-			const grid = new GridClass();
+			const startIdx = getCellIdx(gridInfo[1][0]);
+			const endIdx = getCellIdx(gridInfo[2][0]);
+			
+			const grid = new GridClass(cellCount, rowCount, startIdx, endIdx, wallIndices);
+			let result = a_star(grid);
+			console.log("here");
+			console.log(result);
 		}
 	}
 	
@@ -43,7 +47,7 @@ import { element } from 'svelte/internal';
 	<p id='instructions'>3. Draw walls</p>
 	<p id='instructions'>4. Click visualize</p>
 	<!---Fancy button animation from https://dev.to/webdeasy/top-20-css-buttons-animations-f41 --->
-	<button class="glow" on:click={onRunAlgorithm}>Play</button>
+	<button class="glow" on:click={onRunAlgorithm}>Visualize</button>
 	<div class="center">
 			<!---<Grid rowCount={rowCount} cellCount={cellCount} on:cellClick={cellClick_handler}/>--->
 			<Grid bind:table={table} bind:rowCount={rowCount} bind:cellCount={cellCount}/>
@@ -59,11 +63,11 @@ import { element } from 'svelte/internal';
 		margin: 0 auto;
 	}
 	#instructions {
-		color: #ff3e00;
+		color: #000000;
 		text-transform: uppercase;
 	}
 	h1 {
-		color: #ff3e00;
+		color: #000000;
 		text-transform: uppercase;
 		font-size: 4em;
 		font-weight: 100;

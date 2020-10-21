@@ -23,7 +23,7 @@ class PriorityQueue {
     }
 
     peek() {
-        return this.__heap[top];
+        return this._heap[top];
     }
     
     push(...values) {

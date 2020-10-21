@@ -17,7 +17,6 @@
 			e.detail.target.classList.toggle('cell--start');
 			e.detail.target.classList.remove('cell--wall'); // doesnt throw error if there is no wall
 			startCellSelected = true;
-			console.log('start');
 			return;
 		}
 		else if(e.detail.target.classList.contains('cell--start') && startCellSelected) {
@@ -29,7 +28,6 @@
 			e.detail.target.classList.toggle('cell--end');
 			e.detail.target.classList.remove('cell--wall'); // doesnt throw error if there is no wall
 			endCellSelected = true;
-			console.log('end')
 			readyToBuildWalls = true;
 			return;
 		}
@@ -58,7 +56,6 @@
 	}
 	function handleMouseup(event) {
 		clickDown = false;
-		console.log(clickDown)
 	}
 </script>
 <table bind:this={table}>

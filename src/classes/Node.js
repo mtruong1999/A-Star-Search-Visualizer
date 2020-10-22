@@ -1,5 +1,5 @@
 function manhattan_distance(node1, node2) {
-    return Math.abs(node1.x - node2.x) + Math.abs(node1.y - node2.y);
+    return 100* (Math.abs(node1.x - node2.x) + Math.abs(node1.y - node2.y));
 }
 
 class Node {
@@ -15,12 +15,12 @@ class Node {
         return `${this.x},${this.y}`;
     }
 
-    set predecessor(predecessor) {
-        this.predecessor = predecessor;
+    set predecessor(p) {
+        this.p = p;
     }
 
     get predecessor() {
-        return this.predecessor;
+        return this.p;
     }
 
     set g_n_cost(cost) {

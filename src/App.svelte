@@ -7,6 +7,7 @@ import { element } from 'svelte/internal';
 	let table;
 	let rowCount = 20;
 	let cellCount = 52;
+	let fail = false;
 	function getGrid() {
 		let walls = table.getElementsByClassName('cell--wall');
 		let start = table.getElementsByClassName('cell--start');
@@ -33,11 +34,52 @@ import { element } from 'svelte/internal';
 			
 			const grid = new GridClass(cellCount, rowCount, startIdx, endIdx, wallIndices);
 			let result = a_star(grid);
-			console.log("here");
-			console.log(result);
+			if (result == false) fail = true;
+
+			//let drawVisitedLoop = i => {
+			//	if(result[0][i]) {
+			//		let node = result[0][i];
+			//		let element = document.getElementById(node.id);
+			//		if(!element.classList.contains('cell--start') && !element.classList.contains('cell--end')){
+			//			element.classList.toggle('cell--visited');	
+			//		}
+			//		setTimeout(function(){drawVisitedLoop(i+1)}, 70);
+			//	} else {
+			//		drawPathLoop(result[1].length - 1);
+			//	}
+			//}
+			let drawPathLoop = i => {
+				if(result[1][i]) {
+					let node = result[1][i];
+					let element = document.getElementById(node.id);
+					if(!element.classList.contains('cell--start') && !element.classList.contains('cell--end')){
+						element.classList.remove('cell--visited');
+						element.classList.toggle('cell--path');	
+					}
+					setTimeout(function(){drawPathLoop(i-1)}, 70);
+				}
+			}
+			let drawFullThing = i => {
+				if(result[2][i]) {
+					let node = result[2][i];
+					let element = document.getElementById(node.node.id);
+					if(!element.classList.contains('cell--start') && !element.classList.contains('cell--end')){
+						if(node.type == "neighbor"){
+							element.classList.add('cell--discovered');
+						} else if(node.type == "visited") {
+							element.classList.add('cell--visited');
+						}
+					}
+					setTimeout(function(){drawFullThing(i+1)}, 40);
+				} else {
+					drawPathLoop(result[1].length - 1);
+				}
+			}
+
+			//drawVisitedLoop(0);
+			drawFullThing(0);
 		}
 	}
-	
 </script>
 
 <main>
@@ -46,10 +88,12 @@ import { element } from 'svelte/internal';
 	<p id='instructions'>2. Select end node</p>
 	<p id='instructions'>3. Draw walls</p>
 	<p id='instructions'>4. Click visualize</p>
+	{#if fail}
+		<p id='failed'>NO SOLUTION!</p>
+	{/if}
 	<!---Fancy button animation from https://dev.to/webdeasy/top-20-css-buttons-animations-f41 --->
 	<button class="glow" on:click={onRunAlgorithm}>Visualize</button>
 	<div class="center">
-			<!---<Grid rowCount={rowCount} cellCount={cellCount} on:cellClick={cellClick_handler}/>--->
 			<Grid bind:table={table} bind:rowCount={rowCount} bind:cellCount={cellCount}/>
 	</div>
 
@@ -65,6 +109,10 @@ import { element } from 'svelte/internal';
 	#instructions {
 		color: #000000;
 		text-transform: uppercase;
+	}
+	#failed {
+		color: red;
+		font-weight: bold;
 	}
 	h1 {
 		color: #000000;

@@ -36,10 +36,11 @@
         background-color: red;
     }
     :global(.cell--discovered) {
-        background-color: aqua;
+        background-color: rgb(94, 157, 245);
     }
     :global(.cell--visited) {
-        background-color: mediumblue;
+        background-color: blue;
+
     }
     :global(.cell--path) {
         background-color: darkorange;
